@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Spotify Music Player
+
+A prototype Spotify Music Player application built with Next.js, featuring album browsing, music playback, and 7.5-second loopable MP4 video generation.
+
+## Features
+
+- **Album Browsing**: View all available albums on the homepage
+- **Album Details**: See all songs in an album
+- **Music Player**: Full-featured audio player with play/pause, progress bar, and volume controls
+- **Video Generation**: Create 7.5-second loopable MP4 videos by combining graphics assets with audio
+
+## Project Structure
+
+```
+spotify-music-player/
+├── app/                    # Next.js app directory
+│   ├── page.tsx           # Homepage (album list)
+│   ├── album/[id]/        # Album detail pages
+│   ├── player/[id]/       # Music player pages
+│   ├── layout.tsx         # Root layout
+│   ├── globals.css        # Global styles
+│   └── not-found.tsx     # 404 page
+├── components/
+│   ├── AlbumCard.tsx     # Album display component
+│   ├── SongList.tsx      # List of songs in album
+│   ├── MusicPlayer.tsx   # Audio player controls
+│   └── VideoGenerator.tsx # Video creation interface
+├── lib/
+│   ├── audio.ts          # Audio utilities (placeholder)
+│   ├── video.ts          # Video generation utilities
+│   └── data.ts           # Mock album/song data
+└── public/
+    ├── audio/            # Song files (.mp3) - add your audio files here
+    └── assets/           # Graphics assets for videos - add your assets here
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ installed
+- npm or yarn package manager
+
+### Installation
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Add your audio files to `public/audio/` directory
+3. Update `lib/data.ts` with your actual album and song data
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+### Adding Albums and Songs
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Place audio files (MP3 format) in the `public/audio/` directory
+2. Update the `albums` array in `lib/data.ts` with your album and song information
+3. Add album cover images to the `public/` directory and reference them in your data
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Generating Videos
 
-## Deploy on Vercel
+1. Navigate to a song's player page
+2. Use the VideoGenerator component (you can add it to any page)
+3. Upload graphics assets (PNG, JPG, GIF, WebP)
+4. Click "Generate & Download MP4" to create your 7.5-second video
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Note**: The current video generation creates WebM format videos. For true MP4 format, you may need to:
+- Use FFmpeg.wasm library
+- Set up a backend API with FFmpeg
+- Use mp4box.js for browser-based MP4 creation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Customization
+
+### Styling
+
+The project uses Tailwind CSS for styling. You can customize colors and styles in:
+- `app/globals.css` - Global styles and CSS variables
+- Component files - Tailwind classes
+
+### Video Animation
+
+Customize the animation logic in `lib/video.ts` in the `renderFrame` function. This is where you'll implement your specific motion graphics based on your uploaded assets.
+
+## Next Steps
+
+1. **Connect Figma Designs**: Use the Figma MCP server to import your UI designs
+2. **Add Real Audio**: Replace mock data with actual song files
+3. **Customize Video Animation**: Update the `renderFrame` function in `lib/video.ts` with your animation logic
+4. **MP4 Conversion**: Implement proper MP4 conversion (currently outputs WebM)
+
+## Technologies Used
+
+- **Next.js 16** - React framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **HTML5 Canvas API** - Graphics rendering
+- **MediaRecorder API** - Video recording
+- **HTML5 Audio API** - Audio playback
+
+## Notes
+
+- The video generation currently outputs WebM format. For MP4, consider using FFmpeg.wasm or a backend solution.
+- Audio synchronization in videos requires additional implementation (currently video-only).
+- The animation in `renderFrame` is a placeholder - customize it based on your needs.
