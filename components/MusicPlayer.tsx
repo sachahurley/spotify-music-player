@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Song, getAlbumById } from '@/lib/data';
+import { assetPath } from '@/lib/basePath';
 
 interface MusicPlayerProps {
   song: Song;
@@ -123,7 +124,7 @@ export default function MusicPlayer({ song }: MusicPlayerProps) {
   return (
     <div className="space-y-6">
       {/* Hidden audio element */}
-      <audio ref={audioRef} src={song.audioUrl} preload="metadata" />
+      <audio ref={audioRef} src={assetPath(song.audioUrl)} preload="metadata" />
 
       {/* Album Art and Song Info */}
       <div className="text-center space-y-4">

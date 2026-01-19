@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { getSongById, getAlbumById, getArtist } from '@/lib/data';
+import { assetPath } from '@/lib/basePath';
 import AnimatedAlbumCover from '@/components/AnimatedAlbumCover';
 import TwinklingStarsOverlay from '@/components/TwinklingStarsOverlay';
 import BlurAnimation from '@/components/BlurAnimation';
@@ -180,7 +181,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
             ref={specialOneBackgroundRef}
             className="absolute inset-0 w-full h-full"
             style={{
-              backgroundImage: 'url(/images/special-one-layers/special-one-all.png)',
+              backgroundImage: `url(${assetPath('/images/special-one-layers/special-one-all.png')})`,
               backgroundSize: 'cover',
               backgroundPosition: 'calc(50% + 50px) center',
               backgroundRepeat: 'no-repeat',
@@ -250,7 +251,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
       {song.id === 'song-6' ? (
         /* Dream Song V2 - Full screen centered, clipped to viewport (same as Special One) */
         <div className="absolute inset-0 w-full h-full flex items-center justify-center z-0 overflow-hidden relative">
-          <AnimatedAlbumCover isPlaying={isPlaying} svgPath="/assets/novel-tea-final-v2.svg" fullScreen={true} />
+          <AnimatedAlbumCover isPlaying={isPlaying} svgPath={assetPath('/assets/novel-tea-final-v2.svg')} fullScreen={true} />
           {/* Twinkling Stars Overlay - Gentle ambient animation */}
           <TwinklingStarsOverlay starCount={30} starSize={3} loopDuration={7} />
         </div>
@@ -260,7 +261,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
           {/* Show SVG art for Dream Song (song-2) */}
           {song.id === 'song-2' ? (
             <div className="relative w-full flex items-center justify-center px-4" style={{ maxWidth: '375px' }}>
-              <AnimatedAlbumCover isPlaying={isPlaying} svgPath="/assets/novel-tea-final.svg" />
+              <AnimatedAlbumCover isPlaying={isPlaying} svgPath={assetPath('/assets/novel-tea-final.svg')} />
             </div>
           ) : (
             // Placeholder for other songs - each will have their own unique asset
@@ -300,7 +301,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
             aria-label="Add to playlist"
           >
             <Image
-              src="/icons/plus-icon.svg"
+              src={assetPath('/icons/plus-icon.svg')}
               alt="Add"
               width={24}
               height={24}
@@ -344,7 +345,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
             aria-label="Shuffle"
           >
             <Image
-              src="/icons/shuffle-icon.svg"
+              src={assetPath('/icons/shuffle-icon.svg')}
               alt="Shuffle"
               width={24}
               height={24}
@@ -362,7 +363,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
             aria-label="Previous"
           >
             <Image
-              src="/icons/previous-icon.svg"
+              src={assetPath('/icons/previous-icon.svg')}
               alt="Previous"
               width={36}
               height={36}
@@ -402,7 +403,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
             aria-label="Next"
           >
             <Image
-              src="/icons/next-icon.svg"
+              src={assetPath('/icons/next-icon.svg')}
               alt="Next"
               width={36}
               height={36}
@@ -416,7 +417,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
             aria-label="More options"
           >
             <Image
-              src="/icons/more-options-icon.svg"
+              src={assetPath('/icons/more-options-icon.svg')}
               alt="More options"
               width={24}
               height={24}
@@ -433,7 +434,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
             aria-label="Connect to Bluetooth"
           >
             <Image
-              src="/icons/speaker-icon.svg"
+              src={assetPath('/icons/speaker-icon.svg')}
               alt="Bluetooth"
               width={24}
               height={24}
@@ -447,7 +448,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
             aria-label="Share"
           >
             <Image
-              src="/icons/share-icon.svg"
+              src={assetPath('/icons/share-icon.svg')}
               alt="Share"
               width={24}
               height={24}
@@ -501,7 +502,7 @@ export default function PlayerPageClient({ id }: PlayerPageClientProps) {
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={song.audioUrl}
+        src={assetPath(song.audioUrl)}
         preload="metadata"
       />
       </div>

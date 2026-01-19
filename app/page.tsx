@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { getArtist, getFirstSong } from '@/lib/data';
+import { assetPath } from '@/lib/basePath';
 import Image from 'next/image';
 import MusicPlayerModal from '@/components/MusicPlayerModal';
 
@@ -62,11 +63,11 @@ export default function Home() {
       <div className="absolute aspect-square left-0 overflow-hidden shadow-[0px_4px_28px_15px_rgba(27,99,229,0.12)] top-0 w-full">
         {/* SVG Background - fills container perfectly with matching aspect ratio */}
         <div className="absolute inset-0 w-full h-full">
-          <Image 
-            src="/assets/novel-tea-final.svg" 
-            alt="" 
-            width={375} 
-            height={375} 
+          <Image
+            src={assetPath('/assets/novel-tea-final.svg')}
+            alt=""
+            width={375}
+            height={375}
             className="w-full h-full object-cover"
           />
         </div>
@@ -104,19 +105,19 @@ export default function Home() {
       {/* Options Button (three dots) */}
       <div className="absolute flex gap-[4px] items-start left-[131px] opacity-50 top-[440px]">
         <div className="relative shrink-0 w-[4px] h-[4px]">
-          <Image src="/icons/dots-icon.svg" alt="" width={4} height={4} className="w-full h-full" />
+          <Image src={assetPath('/icons/dots-icon.svg')} alt="" width={4} height={4} className="w-full h-full" />
         </div>
         <div className="relative shrink-0 w-[4px] h-[4px]">
-          <Image src="/icons/dots-icon.svg" alt="" width={4} height={4} className="w-full h-full" />
+          <Image src={assetPath('/icons/dots-icon.svg')} alt="" width={4} height={4} className="w-full h-full" />
         </div>
         <div className="relative shrink-0 w-[4px] h-[4px]">
-          <Image src="/icons/dots-icon.svg" alt="" width={4} height={4} className="w-full h-full" />
+          <Image src={assetPath('/icons/dots-icon.svg')} alt="" width={4} height={4} className="w-full h-full" />
         </div>
       </div>
 
       {/* Shuffle Icon */}
       <div className="absolute h-[24px] left-[266px] opacity-50 top-[430px] w-[26.769px]">
-        <Image src="/icons/shuffle-icon.svg" alt="Shuffle" width={27} height={24} className="w-full h-full" />
+        <Image src={assetPath('/icons/shuffle-icon.svg')} alt="Shuffle" width={27} height={24} className="w-full h-full" />
       </div>
 
       {/* Play Button */}
@@ -127,7 +128,7 @@ export default function Home() {
       >
         <div className="flex items-center justify-center w-[24px] h-[24px]">
           <div className="rotate-90">
-            <Image src="/icons/play-icon.svg" alt="Play" width={24} height={24} className="w-full h-full" />
+            <Image src={assetPath('/icons/play-icon.svg')} alt="Play" width={24} height={24} className="w-full h-full" />
           </div>
         </div>
       </button>
@@ -163,22 +164,22 @@ export default function Home() {
               {song.id === 'song-1' ? (
                 // Special One - Use special-one-all.png
                 <div className="relative shrink-0 w-[48px] h-[48px] rounded overflow-hidden">
-                  <Image 
-                    src="/images/special-one-layers/special-one-all.png" 
-                    alt="" 
-                    width={48} 
-                    height={48} 
+                  <Image
+                    src={assetPath('/images/special-one-layers/special-one-all.png')}
+                    alt=""
+                    width={48}
+                    height={48}
                     className="w-full h-full object-cover"
                   />
                 </div>
               ) : song.id === 'song-2' || song.id === 'song-6' ? (
                 // Dream Song and Dream Song v2 - Use SVG with aspect ratio maintained
                 <div className="relative shrink-0 w-[48px] h-[48px] rounded overflow-hidden">
-                  <Image 
-                    src="/assets/novel-tea-final.svg" 
-                    alt="" 
-                    width={48} 
-                    height={48} 
+                  <Image
+                    src={assetPath('/assets/novel-tea-final.svg')}
+                    alt=""
+                    width={48}
+                    height={48}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -210,9 +211,9 @@ export default function Home() {
 
             {/* Options Icon - 16px right margin */}
             <div className="absolute h-[4px] right-[16px] opacity-50 top-[22px] w-[18px] flex gap-[7px]">
-              <Image src="/icons/options-icon.svg" alt="" width={4} height={4} className="w-full h-full" />
-              <Image src="/icons/options-icon.svg" alt="" width={4} height={4} className="w-full h-full" />
-              <Image src="/icons/options-icon.svg" alt="" width={4} height={4} className="w-full h-full" />
+              <Image src={assetPath('/icons/options-icon.svg')} alt="" width={4} height={4} className="w-full h-full" />
+              <Image src={assetPath('/icons/options-icon.svg')} alt="" width={4} height={4} className="w-full h-full" />
+              <Image src={assetPath('/icons/options-icon.svg')} alt="" width={4} height={4} className="w-full h-full" />
             </div>
           </div>
           ))}
@@ -224,7 +225,7 @@ export default function Home() {
         {/* Home */}
         <div className="flex flex-col gap-[6px] items-center relative shrink-0">
           <div className="relative shrink-0 w-[24px] h-[24px]">
-            <Image src="/icons/home-icon.svg" alt="Home" width={24} height={24} className="w-full h-full" />
+            <Image src={assetPath('/icons/home-icon.svg')} alt="Home" width={24} height={24} className="w-full h-full" />
           </div>
           <p 
             className="leading-[12px] relative shrink-0 text-[11px] text-nowrap text-white tracking-[-0.055px]"
@@ -237,7 +238,7 @@ export default function Home() {
         {/* Search */}
         <div className="flex flex-col gap-[6px] items-center relative shrink-0 opacity-60">
           <div className="relative shrink-0 w-[24px] h-[24px]">
-            <Image src="/icons/search-icon.svg" alt="Search" width={24} height={24} className="w-full h-full" />
+            <Image src={assetPath('/icons/search-icon.svg')} alt="Search" width={24} height={24} className="w-full h-full" />
           </div>
           <p 
             className="leading-[12px] relative shrink-0 text-[11px] text-nowrap text-white tracking-[-0.055px]"
@@ -250,7 +251,7 @@ export default function Home() {
         {/* Your Library */}
         <div className="flex flex-col gap-[6px] items-center relative shrink-0 opacity-60">
           <div className="relative shrink-0 w-[24px] h-[24px]">
-            <Image src="/icons/library-icon.svg" alt="Your Library" width={24} height={24} className="w-full h-full" />
+            <Image src={assetPath('/icons/library-icon.svg')} alt="Your Library" width={24} height={24} className="w-full h-full" />
           </div>
           <p 
             className="leading-[12px] relative shrink-0 text-[11px] text-nowrap text-white tracking-[-0.055px]"
@@ -263,7 +264,7 @@ export default function Home() {
         {/* Premium */}
         <div className="flex flex-col gap-[6px] items-center relative shrink-0 opacity-60">
           <div className="opacity-60 overflow-hidden relative shrink-0 w-[24px] h-[24px]">
-            <Image src="/icons/spotify-icon.svg" alt="Premium" width={24} height={24} className="w-full h-full" />
+            <Image src={assetPath('/icons/spotify-icon.svg')} alt="Premium" width={24} height={24} className="w-full h-full" />
           </div>
           <p 
             className="leading-[12px] relative shrink-0 text-[11px] text-nowrap text-white tracking-[-0.055px]"

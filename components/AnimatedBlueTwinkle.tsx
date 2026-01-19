@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
+import { assetPath } from '@/lib/basePath';
 
 /**
  * Animated Blue Twinkle Component
@@ -143,7 +144,7 @@ export default function AnimatedBlueTwinkle() {
       {/* SVG Image */}
       <Image 
         ref={svgRef}
-        src="/assets/novel-tea-final.svg" 
+        src={assetPath('/assets/novel-tea-final.svg')} 
         alt="" 
         width={48} 
         height={48} 
