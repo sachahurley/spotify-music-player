@@ -492,7 +492,7 @@ export default function SpecialOneV3ExportPage() {
         await ffmpeg.deleteFile('input.webm');
         await ffmpeg.deleteFile('output.mp4');
 
-        return new Blob([outputData], { type: 'video/mp4' });
+        return new Blob([new Uint8Array(outputData as Uint8Array)], { type: 'video/mp4' });
       }
 
       // File too large, try next quality setting
