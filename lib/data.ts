@@ -5,6 +5,7 @@ export interface Song {
   duration: number; // Duration in seconds
   audioUrl: string;
   albumId: string;
+  route: string; // Path to the song's dedicated page
   playCount?: number; // Number of plays for display
   coverArt?: string; // Cover art image URL
 }
@@ -38,8 +39,9 @@ export const albums: Album[] = [
         id: 'song-1',
         title: 'Special One',
         duration: 180, // 3 minutes
-        audioUrl: '/audio/song-1.mp3',
+        audioUrl: '/audio/dream-song.mp3',
         albumId: 'album-1',
+        route: '/player/special-one-v1',
       },
       {
         id: 'song-2',
@@ -47,6 +49,7 @@ export const albums: Album[] = [
         duration: 210, // 3.5 minutes
         audioUrl: '/audio/dream-song.mp3',
         albumId: 'album-1',
+        route: '/player/dream-song-v1',
       },
       {
         id: 'song-6',
@@ -54,13 +57,55 @@ export const albums: Album[] = [
         duration: 210, // 3.5 minutes
         audioUrl: '/audio/dream-song.mp3',
         albumId: 'album-1',
+        route: '/player/dream-song-v2',
       },
       {
         id: 'song-3',
         title: 'Ranger',
         duration: 195, // 3.25 minutes
-        audioUrl: '/audio/song-3.mp3',
+        audioUrl: '/audio/dream-song.mp3',
         albumId: 'album-1',
+        route: '/player/ranger',
+      },
+      {
+        id: 'song-7',
+        title: 'Special One v2',
+        duration: 180, // 3 minutes
+        audioUrl: '/audio/dream-song.mp3',
+        albumId: 'album-1',
+        route: '/player/special-one-v2',
+      },
+      {
+        id: 'song-8',
+        title: 'Special One v3',
+        duration: 180, // 3 minutes
+        audioUrl: '/audio/dream-song.mp3',
+        albumId: 'album-1',
+        route: '/player/special-one-v3',
+      },
+      {
+        id: 'song-9',
+        title: 'Special One v4',
+        duration: 180, // 3 minutes
+        audioUrl: '/audio/dream-song.mp3', // Using existing audio file
+        albumId: 'album-1',
+        route: '/player/special-one-v4',
+      },
+      {
+        id: 'song-10',
+        title: 'Special One v5',
+        duration: 180, // 3 minutes
+        audioUrl: '/audio/dream-song.mp3',
+        albumId: 'album-1',
+        route: '/player/special-one-v5',
+      },
+      {
+        id: 'song-11',
+        title: 'Special One v6',
+        duration: 180, // 3 minutes
+        audioUrl: '/audio/dream-song.mp3',
+        albumId: 'album-1',
+        route: '/player/special-one-v6',
       },
     ],
   },
@@ -76,13 +121,15 @@ export const albums: Album[] = [
         duration: 165, // 2.75 minutes
         audioUrl: '/audio/song-4.mp3',
         albumId: 'album-2',
+        route: '/player/answer-part-2',
       },
       {
         id: 'song-5',
         title: 'Closing Song',
         duration: 240, // 4 minutes
-        audioUrl: '/audio/song-5.mp3',
+        audioUrl: '/audio/dream-song.mp3',
         albumId: 'album-2',
+        route: '/player/closing-song',
       },
     ],
   },
@@ -98,9 +145,60 @@ export const artist: Artist = {
       id: 'song-1',
       title: 'Special One',
       duration: 180,
-      audioUrl: '/audio/song-1.mp3',
+      audioUrl: '/audio/dream-song.mp3',
       albumId: 'album-1',
+      route: '/player/special-one-v1',
       playCount: 118067885,
+      coverArt: '/placeholder-album-cover.jpg',
+    },
+    {
+      id: 'song-7',
+      title: 'Special One v2',
+      duration: 180,
+      audioUrl: '/audio/dream-song.mp3',
+      albumId: 'album-1',
+      route: '/player/special-one-v2',
+      playCount: 100000000,
+      coverArt: '/placeholder-album-cover.jpg',
+    },
+    {
+      id: 'song-8',
+      title: 'Special One v3',
+      duration: 180,
+      audioUrl: '/audio/dream-song.mp3',
+      albumId: 'album-1',
+      route: '/player/special-one-v3',
+      playCount: 95000000,
+      coverArt: '/placeholder-album-cover.jpg',
+    },
+    {
+      id: 'song-9',
+      title: 'Special One v4',
+      duration: 180,
+      audioUrl: '/audio/dream-song.mp3', // Using existing audio file
+      albumId: 'album-1',
+      route: '/player/special-one-v4',
+      playCount: 90000000,
+      coverArt: '/placeholder-album-cover.jpg',
+    },
+    {
+      id: 'song-10',
+      title: 'Special One v5',
+      duration: 180,
+      audioUrl: '/audio/dream-song.mp3',
+      albumId: 'album-1',
+      route: '/player/special-one-v5',
+      playCount: 85000000,
+      coverArt: '/placeholder-album-cover.jpg',
+    },
+    {
+      id: 'song-11',
+      title: 'Special One v6',
+      duration: 180,
+      audioUrl: '/audio/dream-song.mp3',
+      albumId: 'album-1',
+      route: '/player/special-one-v6',
+      playCount: 80000000,
       coverArt: '/placeholder-album-cover.jpg',
     },
     {
@@ -109,6 +207,7 @@ export const artist: Artist = {
       duration: 210,
       audioUrl: '/audio/dream-song.mp3',
       albumId: 'album-1',
+      route: '/player/dream-song-v1',
       playCount: 24022385,
       coverArt: '/placeholder-album-cover.jpg',
     },
@@ -118,6 +217,7 @@ export const artist: Artist = {
       duration: 210,
       audioUrl: '/audio/dream-song.mp3',
       albumId: 'album-1',
+      route: '/player/dream-song-v2',
       playCount: 20000000,
       coverArt: '/placeholder-album-cover.jpg',
     },
@@ -125,8 +225,9 @@ export const artist: Artist = {
       id: 'song-3',
       title: 'Ranger',
       duration: 195,
-      audioUrl: '/audio/song-3.mp3',
+      audioUrl: '/audio/dream-song.mp3',
       albumId: 'album-1',
+      route: '/player/ranger',
       playCount: 18543210,
       coverArt: '/placeholder-album-cover.jpg',
     },
@@ -136,6 +237,7 @@ export const artist: Artist = {
       duration: 165,
       audioUrl: '/audio/song-4.mp3',
       albumId: 'album-2',
+      route: '/player/answer-part-2',
       playCount: 15234567,
       coverArt: '/placeholder-album-cover.jpg',
     },
