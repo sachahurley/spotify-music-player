@@ -3,10 +3,13 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * Sepia Grain Overlay Component
+ * Sepia Noise Grain Overlay Component
  * 
- * Creates a slow, atmospheric film grain effect with a sepia/brown tint.
- * Now with smooth cross-fading between frames for a more professional feel.
+ * Features:
+ * - Exactly 7.5s seamless loop
+ * - Organic, varied grain sizes (fine, medium, and clumped)
+ * - Lighter and darker grain particles
+ * - Smooth cross-fading for a calm, non-frenetic feel
  */
 interface SepiaGrainOverlayProps {
   loopDuration?: number;
@@ -87,7 +90,7 @@ class PerlinNoise {
 export default function SepiaGrainOverlay({ 
   loopDuration = 7.5,
   autoStart = true,
-  opacity = 0.4
+  opacity = 0.25
 }: SepiaGrainOverlayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -96,24 +99,20 @@ export default function SepiaGrainOverlay({
   const perlinNoiseRef = useRef<PerlinNoise | null>(null);
   const offscreenCanvasesRef = useRef<HTMLCanvasElement[]>([]);
 
-  // Sepia tint color: Soft reddish-brown
   const sepiaColor = { r: 112, g: 66, b: 20 };
 
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current || !autoStart) return;
 
     const canvas = canvasRef.current;
-    const container = containerRef.current;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    perlinNoiseRef.current = new PerlinNoise(0);
+    perlinNoiseRef.current = new PerlinNoise(Math.random());
 
-    const grainSize = 0.3; // Slightly smaller grain
-    const contrast = 1.2; // Much lower contrast to reduce luminance "jumps"
-    const updateRate = 0.5; // Very slow: 1 change every 2 seconds
-    const frameInterval = 1000 / updateRate;
-    const numFrames = 10; 
+    const numFrames = 8; // Exactly 8 steps in the cycle
+    // Each frame lasts 7.5s / 8 = 0.9375s
+    const frameInterval = (loopDuration * 1000) / numFrames; 
 
     let currentFrame = 0;
 
@@ -129,13 +128,10 @@ export default function SepiaGrainOverlay({
         
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // DRAW SMOOTH CROSS-FADE
         ctx.save();
-        // Draw the current frame fading out
         ctx.globalAlpha = 1 - progress;
         ctx.drawImage(offscreenCanvasesRef.current[currentIdx], 0, 0, canvas.width, canvas.height);
         
-        // Draw the next frame fading in
         ctx.globalAlpha = progress;
         ctx.drawImage(offscreenCanvasesRef.current[nextIdx], 0, 0, canvas.width, canvas.height);
         ctx.restore();
@@ -149,7 +145,7 @@ export default function SepiaGrainOverlay({
     };
 
     const generateFrames = () => {
-      const bufferWidth = 400;
+      const bufferWidth = 400; 
       const bufferHeight = 400;
       if (!perlinNoiseRef.current) return;
 
@@ -164,20 +160,46 @@ export default function SepiaGrainOverlay({
         
         const imageData = tempCtx.createImageData(bufferWidth, bufferHeight);
         const data = imageData.data;
-        const offset = f * 15;
+        const offset = f * 60; 
 
         for (let i = 0; i < data.length; i += 4) {
           const x = (i / 4) % bufferWidth;
           const y = Math.floor((i / 4) / bufferWidth);
-          const noiseValue = noise.noise2D((x * grainSize) + offset, (y * grainSize) + offset);
           
-          const normalized = (noiseValue + 1) * 0.5;
-          const intensity = Math.pow(normalized, 1 / contrast);
+          // Organic coordinate distortion to break any lines
+          const nx = x + noise.noise2D(x * 0.01, y * 0.01) * 10;
+          const ny = y + noise.noise2D(y * 0.01, x * 0.01) * 10;
+
+          // 1. FINE GRAIN (Smallest)
+          const fineGrain = Math.random() > 0.98 ? 1.0 : 0; // Rare sharp specs
           
-          data[i] = sepiaColor.r;
-          data[i+1] = sepiaColor.g;
-          data[i+2] = sepiaColor.b;
-          data[i+3] = Math.floor(intensity * 255);
+          // 2. MEDIUM GRAIN (Texture)
+          const medNoise = (noise.noise2D(nx * 0.3 + offset, ny * 0.3 + offset) + 1) * 0.5;
+          
+          // 3. LARGE CLUMPS (Groupings)
+          const largeNoise = (noise.noise2D(nx * 0.05 + offset * 0.5, ny * 0.05 + offset * 0.5) + 1) * 0.5;
+          
+          // 4. Meditative Pulse Grouping (Independent timing)
+          const pulseNoise = (noise.noise2D(nx * 0.02 - offset * 0.2, ny * 0.02 + offset * 0.2) + 1) * 0.5;
+
+          // Combine for complex texture
+          let intensity = (Math.random() * 0.4) + (medNoise * 0.4) + (largeNoise * 0.2);
+          
+          // Apply a "film curve" to make it punchier
+          intensity = Math.pow(intensity, 2.2); 
+          
+          // SIGNIFICANT color variation for light/dark grains
+          // We shift the color based on the large groupings
+          const brightnessShift = 0.6 + (pulseNoise * 0.8); // 0.6 to 1.4 multiplier
+          
+          data[i] = Math.max(0, Math.min(255, sepiaColor.r * brightnessShift));     
+          data[i+1] = Math.max(0, Math.min(255, sepiaColor.g * brightnessShift));   
+          data[i+2] = Math.max(0, Math.min(255, sepiaColor.b * brightnessShift));   
+          
+          // Use alpha to combine all grain layers
+          // If it's a "fine grain" spec, make it very opaque
+          const alpha = fineGrain > 0 ? 255 : Math.floor(intensity * 255);
+          data[i+3] = alpha;
         }
         tempCtx.putImageData(imageData, 0, 0);
         newCanvases.push(tempCanvas);
@@ -190,9 +212,10 @@ export default function SepiaGrainOverlay({
     };
 
     const updateCanvasSize = () => {
-      const rect = container.getBoundingClientRect();
-      canvas.width = Math.min(rect.width || window.innerWidth, 1000);
-      canvas.height = Math.min(rect.height || window.innerHeight, 1000);
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      canvas.width = Math.max(rect.width, 375);
+      canvas.height = Math.max(rect.height, 667);
       if (perlinNoiseRef.current && offscreenCanvasesRef.current.length === 0) {
         generateFrames();
       }
@@ -200,7 +223,7 @@ export default function SepiaGrainOverlay({
 
     updateCanvasSize();
     const resizeObserver = new ResizeObserver(updateCanvasSize);
-    resizeObserver.observe(container);
+    resizeObserver.observe(containerRef.current!);
 
     return () => {
       if (animationFrameRef.current !== null) cancelAnimationFrame(animationFrameRef.current);
@@ -213,12 +236,12 @@ export default function SepiaGrainOverlay({
       ref={containerRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
       style={{
-        zIndex: 5,
-        mixBlendMode: 'soft-light', // Soft-light is much gentler than multiply
+        zIndex: 10, 
+        mixBlendMode: 'multiply', // Multiply is much better for showing dark grain on light blue
         opacity: opacity,
       }}
     >
-      <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
+      <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block', imageRendering: 'pixelated' }} />
     </div>
   );
 }

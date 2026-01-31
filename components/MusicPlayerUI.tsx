@@ -153,9 +153,11 @@ export default function MusicPlayerUI({
 
   return (
     <div className="fixed inset-0 z-40 bg-black flex justify-center">
-      <div className="relative w-full max-w-[375px] h-full bg-black overflow-hidden">
+      <div className="relative w-full max-w-[375px] h-full bg-black overflow-hidden shadow-2xl">
         {/* Background/Middle Content Area provided by parent */}
-        {children}
+        <div className="absolute inset-0 w-full h-full z-0">
+          {children}
+        </div>
 
         {/* Top Section - Close Icon and Title */}
         {isUIVisible && (

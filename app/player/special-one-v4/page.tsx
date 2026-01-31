@@ -15,14 +15,14 @@ export default function SpecialOneV4Page() {
       {/* Super Simple Solid Light Blue Background */}
       <div 
         className="absolute inset-0 w-full h-full" 
-        style={{ backgroundColor: '#87CEEB', zIndex: 0 }} 
+        style={{ backgroundColor: '#87CEEB', zIndex: 1 }} 
       />
 
       {/* Slow, Atmospheric Sepia Film Grain Overlay */}
       <SepiaGrainOverlay 
         loopDuration={7.5} 
         autoStart={true} 
-        opacity={0.2} 
+        opacity={0.8} 
       />
     </MusicPlayerUI>
   );
